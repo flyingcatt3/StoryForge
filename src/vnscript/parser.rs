@@ -283,10 +283,15 @@ impl Parser {
     }
     
     fn match_token(&self, token: &Token) -> bool {
-        if let Some(t) = self.peek() {
-            std::mem::discriminant(t) == std::mem::discriminant(token)
-        } else {
-            false
+        match (self.peek(), token) {
+            (Some(Token::Colon), Token::Colon) => true,
+            (Some(Token::At), Token::At) => true,
+            (Some(Token::Identifier(_)), Token::Identifier(_)) => true,
+            (Some(Token::String(_)), Token::String(_)) => true,
+            (Some(Token::Integer(_)), Token::Integer(_)) => true,
+            (Some(Token::Float(_)), Token::Float(_)) => true,
+            (Some(Token::Boolean(_)), Token::Boolean(_)) => true,
+            _ => false,
         }
     }
     

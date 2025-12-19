@@ -74,6 +74,21 @@ impl AudioPlayer {
 
 impl Default for AudioPlayer {
     fn default() -> Self {
-        Self::new().expect("Failed to initialize audio player")
+        // Return a disabled audio player if initialization fails
+        match Self::new() {
+            Ok(player) => player,
+            Err(_) => {
+                log::warn!("Failed to initialize audio player, audio will be disabled");
+                // Create a minimal working state
+                let (stream, stream_handle) = OutputStream::try_default()
+                    .unwrap_or_else(|_| panic!("Audio system unavailable"));
+                Self {
+                    _stream: stream,
+                    stream_handle,
+                    music_sink: None,
+                    sound_sink: None,
+                }
+            }
+        }
     }
 }

@@ -69,7 +69,12 @@ impl Runtime {
             (Value::Integer(l), BinaryOperator::Add, Value::Integer(r)) => Ok(Value::Integer(l + r)),
             (Value::Integer(l), BinaryOperator::Subtract, Value::Integer(r)) => Ok(Value::Integer(l - r)),
             (Value::Integer(l), BinaryOperator::Multiply, Value::Integer(r)) => Ok(Value::Integer(l * r)),
-            (Value::Integer(l), BinaryOperator::Divide, Value::Integer(r)) => Ok(Value::Integer(l / r)),
+            (Value::Integer(l), BinaryOperator::Divide, Value::Integer(r)) => {
+                if *r == 0 {
+                    return Err(anyhow!("Division by zero"));
+                }
+                Ok(Value::Integer(l / r))
+            }
             (Value::Integer(l), BinaryOperator::Equal, Value::Integer(r)) => Ok(Value::Boolean(l == r)),
             (Value::Integer(l), BinaryOperator::NotEqual, Value::Integer(r)) => Ok(Value::Boolean(l != r)),
             (Value::Integer(l), BinaryOperator::Greater, Value::Integer(r)) => Ok(Value::Boolean(l > r)),

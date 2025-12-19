@@ -215,7 +215,8 @@ impl StoryForgeApp {
                             ui.label("No save files found");
                         } else {
                             for (slot, save_data) in saves {
-                                if ui.button(format!("Slot {} - {}", slot, save_data.timestamp)).clicked() {
+                                let time_str = save_data.timestamp.format("%Y-%m-%d %H:%M:%S").to_string();
+                                if ui.button(format!("Slot {} - {}", slot, time_str)).clicked() {
                                     // Load game logic would go here
                                     log::info!("Loading slot {}", slot);
                                 }
