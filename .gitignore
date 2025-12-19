@@ -1,3 +1,14 @@
 !bin/x64/net7.0-windows/story/*
 !bin/x64/net7.0-windows/converted_imgs/*
 !.gitignore
+
+# Rust build artifacts
+/target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+
+# Added by cargo
+
+/target
